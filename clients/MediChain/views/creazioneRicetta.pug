@@ -1,0 +1,159 @@
+doctype html
+html
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title Inserisci Ricetta
+        style.
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #5080fd; /* Blu chiaro della palette */
+                margin: 0;
+                padding: 1rem;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 1rem;
+                background-color: #FFFFFF; /* Bianco */
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                color: #1f2b5b; /* Blu scuro della palette */
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            .field-group {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+            .field-group input[type="text"] {
+                flex: 1;
+                padding: 0.5rem;
+                border: 1px solid #3dbdec; /* Blu brillante della palette */
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+            .add-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #3dbdec; /* Blu brillante della palette */
+                color: #FFFFFF; /* Bianco */
+                padding: 0.5rem 1rem;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 1rem;
+                margin-top: 1rem;
+            }
+            .add-button:hover {
+                background-color: #1f2b5b; /* Blu scuro della palette */
+            }
+            .save-button {
+                width: 100%;
+                padding: 0.75rem;
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #FFFFFF; /* Bianco */
+                background: linear-gradient(90deg, #3dbdec, #1f2b5b); /* Gradiente */
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease-in-out;
+                margin-top: 1.5rem;
+            }
+            .save-button:hover {
+                transform: scale(1.05);
+                background: linear-gradient(90deg, #1f2b5b, #3dbdec); /* Gradiente invertito */
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            }
+    body
+        .container
+            h1 Inserisci Dati della Ricetta
+            form#recipeForm
+                input(type="hidden" name="userId" value=userId)
+                .dynamic-fields#dynamicFields
+                    .field-group
+                        input(type="text" name="drugName[]" placeholder="Nome del farmaco...")
+                        input(type="text" name="dosage[]" placeholder="Dosaggio...")
+                        input(type="text" name="frequency[]" placeholder="Frequenza (es. 2 volte al giorno)...")
+                button.add-button(type="button" id="addDrugButton")
+                    | +
+                    span Aggiungi farmaco
+                .form-group
+                    button.save-button(type="submit") Salva Ricetta
+
+        script.
+            const recipeForm = document.getElementById('recipeForm');
+            const addDrugButton = document.getElementById('addDrugButton');
+            const dynamicFields = document.getElementById('dynamicFields');
+
+            // Aggiungi nuovi campi dinamicamente
+            addDrugButton.addEventListener('click', () => {
+                const fieldGroup = document.createElement('div');
+                fieldGroup.className = 'field-group';
+
+                const drugInput = document.createElement('input');
+                drugInput.type = 'text';
+                drugInput.name = 'drugName[]';
+                drugInput.placeholder = 'Nome del farmaco...';
+
+                const dosageInput = document.createElement('input');
+                dosageInput.type = 'text';
+                dosageInput.name = 'dosage[]';
+                dosageInput.placeholder = 'Dosaggio...';
+
+                const frequencyInput = document.createElement('input');
+                frequencyInput.type = 'text';
+                frequencyInput.name = 'frequency[]';
+                frequencyInput.placeholder = 'Frequenza (es. 2 volte al giorno)...';
+
+                fieldGroup.appendChild(drugInput);
+                fieldGroup.appendChild(dosageInput);
+                fieldGroup.appendChild(frequencyInput);
+                dynamicFields.appendChild(fieldGroup);
+            });
+
+            // Gestione del submit
+            recipeForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Evita il comportamento predefinito
+
+                const data = [];
+                const userId = document.querySelector('input[name="userId"]').value; // Prendi il valore di userId
+                const fieldGroups = document.querySelectorAll('.field-group');
+
+                fieldGroups.forEach(group => {
+                    const drug = group.querySelector('input[name="drugName[]"]').value.trim();
+                    const dosage = group.querySelector('input[name="dosage[]"]').value.trim();
+                    const frequency = group.querySelector('input[name="frequency[]"]').value.trim();
+
+                    if (drug && dosage && frequency) { // Aggiungi solo triplette non vuote
+                        data.push({ drugName: drug, dosage: dosage, frequency: frequency });
+                    }
+                });
+
+                // Invia i dati tramite una richiesta POST
+                fetch('/users/ricetta', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId, // Includi userId nel corpo
+                        prescription: data,
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        alert('Ricetta salvata con successo!');
+                        console.log(result);
+                    })
+                    .catch(error => {
+                        console.error('Errore nel salvataggio della ricetta:', error);
+                    });
+            });

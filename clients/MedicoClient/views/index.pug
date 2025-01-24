@@ -1,0 +1,63 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title MediChain
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #5080fd; /* Blu chiaro della palette */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        background-color: #FFFFFF; /* Bianco */
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px;
+      }
+      h1 {
+        color: #1f2b5b; /* Blu scuro della palette */
+        margin-bottom: 1rem;
+      }
+      img {
+        width: 250px; /* Imposta una larghezza adeguata */
+        height: 200px; /* Mantiene il rapporto di aspetto */
+        margin-bottom: 1rem; /* Spazio tra l'immagine e il form */
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      input {
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        border: 1px solid #3dbdec; /* Blu brillante della palette */
+        border-radius: 5px;
+      }
+      button {
+        background-color: #3dbdec; /* Blu brillante della palette */
+        color: #FFFFFF; /* Bianco */
+        padding: 0.7rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      button:hover {
+        background-color: #1f2b5b; /* Blu scuro della palette */
+      }
+  body
+    .container
+      img(src="logo.png" alt="Logo MediChain")
+      form(action="/login" method="POST")
+        input(type="text" name="username" placeholder="Username" required)
+        input(type="password" name="password" placeholder="Password" required)
+        button(type="submit") Accedi
