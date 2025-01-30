@@ -166,8 +166,8 @@ app.post('/api/loginFarmacista', async (req, res) => {
 
 
     } catch (error) {
-        console.error('Errore durante il login del paziente: ', error);
-        return res.status(401).json({ message: 'Errore durante il login del paziente', error: error.message });
+        console.error('Errore durante il login del farmacista: ', error);
+        return res.status(401).json({ message: 'Errore durante il login del farmacista', error: error.message });
     }
 
     res.status(200).json({ message: uniqueId });
@@ -205,22 +205,71 @@ app.post('/api/getPrescriptions', async (req, res) => {
                 console.log('Transaction IDs:', transactions);
 
                 let prescriptions = [];
+                let olderPrescriptions = [];
+                let isOlder = false;
+
+                let truePrescriptions = getTruePrescription(transactions);
+                console.log("Le prescrizioni da validare sono: " + truePrescriptions.length);
+                for (let t of truePrescriptions) {
+                    console.log("TransactionID: " + t);
+                    console.log('Transazione: ' + t.transactionID);
+
+                    try {
+                        // Estrai l'ID IPFS (assumendo che sia presente un campo "ipfsID" nei dettagli)
+                        console.log("IPFS HASH: " + t["IPFSHash"]);
+                        const newHash = t["IPFSHash"];
+                        if (newHash) {
+                            const json = await getFileFromIPFS(newHash);
+                            console.log('PROVA: ' + JSON.stringify(json));
+                            if (json) {
+                                json.ipfsHash = newHash;
+                                json.transactionID = t.transactionID;
+                                console.log('PROVA2: ' + JSON.stringify(json));
+
+                                prescriptions.push(json);
+                            } else {
+                                console.warn(`Nessun dato trovato per il CID: ${t.ipfsHash}`);
+                            }
+
+                        } else {
+                            console.warn(`Nessun ID IPFS trovato per la transazione ${t}`);
+                        }
+                    } catch (err) {
+                        console.error(`Errore durante il recupero dei dettagli per la transazione ${transactionID}:`, err);
+                    }
+                }
 
                 // Itera su ciascun ID di transazione e recupera i dettagli
-                for (const transactionID of transactions) {
-                    console.log('Inizio ciclo su ogni transazione trovata: ' + transactions.length);
+                /*for (let transactionID of transactions) {
+                    console.log("TransactionID: " + transactionID);
+                    if (transactionID["oldIPFSHash"].length > 0) {
+                        console.log("C'è una vecchia versione per l'Hash: ");
+                        olderPrescriptions.push(transactionID);
+                        continue;
+                    } else {
+                        console.log("Non c'è una vecchia versione");
+                        isOlder = checkOlderPrescription(transactionID, olderPrescriptions);
+
+                        if (isOlder) continue;
+                    }
                     console.log('Transazione: ' + transactionID.transactionID);
 
                     try {
                         // Estrai l'ID IPFS (assumendo che sia presente un campo "ipfsID" nei dettagli)
-                        if (transactionID.ipfsHash) {
-                            const json = await getFileFromIPFS(transactionID.ipfsHash);
+                        console.log("IPFS HASH: " + transactionID["IPFSHash"]);
+                        const newHash = transactionID["IPFSHash"];
+                        if (newHash) {
+                            const json = await getFileFromIPFS(newHash);
                             console.log('PROVA: ' + JSON.stringify(json));
                             if (json) {
-                                json.ipfsHash = transactionID.ipfsHash;
+                                json.ipfsHash = newHash;
                                 console.log('PROVA2: ' + JSON.stringify(json));
 
                                 prescriptions.push(json);
+
+                                ultimateCheckPrescription(prescriptions, olderPrescriptions);
+                                printList(prescriptions);
+
                             } else {
                                 console.warn(`Nessun dato trovato per il CID: ${transactionID.ipfsHash}`);
                             }
@@ -231,7 +280,7 @@ app.post('/api/getPrescriptions', async (req, res) => {
                     } catch (err) {
                         console.error(`Errore durante il recupero dei dettagli per la transazione ${transactionID}:`, err);
                     }
-                }
+                }*/
 
                 console.log(`Transazione completata con successo.`);
 
@@ -262,6 +311,39 @@ app.post('/api/getPrescriptions', async (req, res) => {
     }
 });
 
+async function getOlderPrescription(olderCid) {
+    const jsonData = await getFileFromIPFS(olderCid);
+    console.log('JSON recuperato dal paziente:\n', jsonData);
+
+    return jsonData;
+}
+
+function checkOlderPrescription(prescription, olderPrescriptions) {
+    for (const p of olderPrescriptions) {
+        if(p["oldIPFSHash"] == prescription["oldIPFSHash"]) return true;
+    }
+    return false;
+}
+
+function ultimateCheckPrescription(prescriptions, olderPrescriptions) {
+    for (const p of prescriptions) {
+        for (const older of olderPrescriptions) {
+            if (p["ipfsHash"] == olderPrescriptions["oldIPFSHash"]) {
+                const cid = p["ipfsHash"];
+                prescriptions = prescriptions.filter(p => p.ipfsHash !== cid);
+            }
+        }
+    }
+}
+
+function getTruePrescription(prescriptions) {
+    let truePrescriptions = [];
+    for (const p of prescriptions) {
+        if (p["isValid"]) truePrescriptions.push(p);
+    }
+
+    return truePrescriptions;
+}
 
 app.post('/api/getPrescriptionByIPFSHash', async (req, res) => {
     const { ipfsHashScanned } = req.body;
@@ -283,9 +365,24 @@ app.post('/api/getPrescriptionByIPFSHash', async (req, res) => {
 });
 
 app.post('/api/validationPrescription', async (req, res) => {
-    const { ipfsHash, patientID, flag } = req.body;
+    const prescriptionJson  = req.body;
+
+    console.log("Prescription: ", prescriptionJson);
+
+    const patientID = req.body.patientID;
+    const ipfsHash = req.body.ipfsHash;
+    const isValid = req.body.isValid;
+    console.log(isValid);
+    const transactionID = req.body.transactionID;
 
     try {
+        //Salvo su IPFS
+        /*const ipfs = await getIpfsClient();
+        const prescriptionString = JSON.stringify(prescriptionJson);
+        const result = await ipfs.add(prescriptionString);
+        console.log(`Caricato su IPFS con successo: ${result.path}`);
+        const cid = result.path;*/
+
         const gateway = await configurazioneFabric();
 
         // Ottieni il network e il chaincode
@@ -294,10 +391,13 @@ app.post('/api/validationPrescription', async (req, res) => {
         const contract = network.getContract('chaincodes'); //savePrescription
         console.log('Chaincode ottenuto.');
 
+
+
         // Invoca il chaincode
         try {
-            // Invoca la funzione QueryTransactionsByPatientID sul chaincode
-            await contract.submitTransaction('SaveTransactionWithFlag', ipfsHash, patientID, flag);
+            // Invoca la funzione StoreTransaction sul chaincode
+            //await contract.submitTransaction('StoreTransaction', ipfsHash, cid, isValid, patientID);
+            await contract.submitTransaction('InvalidateTransaction', transactionID);
 
             res.status(200).json({message: 'Ricetta Validata con successo!'});
 
@@ -370,6 +470,60 @@ async function configurazioneFabric(){
     return gateway;
 }
 
+async function configurazioneFabricOrg3(){
+    // Configura il client Fabric per invocare il chaincode
+    const ccpPath = path.resolve(__dirname, 'connection-org3.json');
+    console.log('Connection Profile Path:', ccpPath);
+    if (!fs.existsSync(ccpPath)) {
+        throw new Error(`Connection profile non trovato alla path: ${ccpPath}`);
+    }
+    const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+
+    // Inizializza direttamente l'identità senza wallet
+    const certificatePath = path.resolve(__dirname,  'certs/farmacista', 'admin-cert.pem');
+    const privateKeyPath = path.resolve(__dirname,  'certs/farmacista', 'admin-key.pem');
+
+    console.log(`Percorso Certificato: ${certificatePath}`);
+    console.log(`Percorso Chiave Privata: ${privateKeyPath}`);
+
+    // Controlla se i file esistono
+    if (!fs.existsSync(certificatePath)) {
+        console.error(`Errore: Certificato non trovato al percorso: ${certificatePath}`);
+    } else {
+        console.log(`Certificato trovato con successo.`);
+    }
+
+    if (!fs.existsSync(privateKeyPath)) {
+        console.error(`Errore: Chiave privata non trovata al percorso: ${privateKeyPath}`);
+    } else {
+        console.log(`Chiave privata trovata con successo.`);
+    }
+
+    const certificate = fs.readFileSync(certificatePath).toString();
+    const privateKey = fs.readFileSync(privateKeyPath).toString();
+
+    // Configura l'identità X.509
+    const userIdentity = {
+        credentials: {
+            certificate: certificate,
+            privateKey: privateKey,
+        },
+        mspId: 'Org3MSP',
+        type: 'X.509',
+    };
+
+    // Connetti al gateway Hyperledger Fabric
+    const gateway = new Gateway();
+    await gateway.connect(ccp, {
+        identity: userIdentity,
+        discovery: { enabled: true, asLocalhost: true }, // Usa `asLocalhost` per sviluppo locale
+    });
+
+    console.log('Gateway connesso con successo.');
+    console.log('Percorso Certificato TLS:', ccp.peers['peer0.org3.example.com'].tlsCACerts.path);
+    return gateway;
+}
+
 async function getFileFromIPFS(cid) {
     try {
         // Configura il client IPFS
@@ -398,6 +552,12 @@ async function getFileFromIPFS(cid) {
     }
 }
 
+function printList(prescriptions) {
+    console.log("PRESCRIZIONI DA INVIARE: \n");
+    for (const p of prescriptions) {
+        console.log(p + "\n");
+    }
+}
 
 // Usa i router
 app.use('/', indexRouter); // Home page

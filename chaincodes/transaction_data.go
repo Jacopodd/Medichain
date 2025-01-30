@@ -2,6 +2,7 @@ package main
 
 type TransactionData struct {
 	TransactionID string `json:"transactionID"`
-	IPFSHash      string `json:"ipfsHash"`
-	Flag          bool   `json:"flag"`
+	OldIPFSHash      string `json:"oldIPFSHash"`
+	IPFSHash      string `json:"IPFSHash"`
+	IsValid          bool   `json:"isValid"`
 }

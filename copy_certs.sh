@@ -113,3 +113,61 @@ echo ">> File $FILE_TO_COPY copiato in $PAZIENTE_ADMIN_DESTINATION_FOLDER."
 NEW_NAME2="admin-key.pem"
 mv "$PAZIENTE_ADMIN_DESTINATION_FOLDER/$FILE_TO_COPY" "$PAZIENTE_ADMIN_DESTINATION_FOLDER/$NEW_NAME2"
 echo ">> File $FILE_TO_COPY rinominato in $NEW_NAME2"
+
+
+FARMACISTA_ADMINCERTS_SOURCE_FOLDER="/home/jacopodd/go/src/github.com/Jacopodd/fabric-samples/medichain-network2/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/signcerts"
+FARMACISTA_ADMINKEY_SOURCE_FOLDER="/home/jacopodd/go/src/github.com/Jacopodd/fabric-samples/medichain-network2/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore"
+FARMACISTA_ADMIN_DESTINATION_FOLDER="/home/jacopodd/go/src/github.com/Jacopodd/fabric-samples/medichain-network2/clients/MedicoClient/certs/farmacista"
+
+# Verifica se le cartelle esistono
+if [ ! -d "$FARMACISTA_ADMINCERTS_SOURCE_FOLDER" ]; then
+  echo "Errore: La cartella sorgente $FARMACISTA_ADMINCERTS_SOURCE_FOLDER non esiste!"
+  exit 1
+fi
+
+if [ ! -d "$FARMACISTA_ADMINKEY_SOURCE_FOLDER" ]; then
+  echo "Errore: La cartella sorgente $FARMACISTA_ADMINKEY_SOURCE_FOLDER non esiste!"
+  exit 1
+fi
+
+if [ ! -d "$FARMACISTA_ADMIN_DESTINATION_FOLDER" ]; then
+  echo "La cartella destinazione $FARMACISTA_ADMIN_DESTINATION_FOLDER non esiste. Creazione in corso..."
+  mkdir -p "$FARMACISTA_ADMIN_DESTINATION_FOLDER"
+fi
+
+echo ">> Copia dei file dalla cartella $FARMACISTA_ADMINCERTS_SOURCE_FOLDER alla cartella $PAZIENTE_ADMIN_DESTINATION_FOLDER..."
+
+# Copia di un file specifico
+SPECIFIC_FILE="cert.pem"  # Nome del file specifico da copiare
+if [ -f "$FARMACISTA_ADMINCERTS_SOURCE_FOLDER/$SPECIFIC_FILE" ]; then
+  cp "$FARMACISTA_ADMINCERTS_SOURCE_FOLDER/$SPECIFIC_FILE" "$FARMACISTA_ADMIN_DESTINATION_FOLDER/"
+  echo ">> File $SPECIFIC_FILE copiato in $FARMACISTA_ADMIN_DESTINATION_FOLDER."
+  
+  # Rinomina del file copiato
+  BASENAME=$(basename "$SPECIFIC_FILE")
+  NEWNAME="admin-cert.pem"
+  mv "$FARMACISTA_ADMIN_DESTINATION_FOLDER/$BASENAME" "$FARMACISTA_ADMIN_DESTINATION_FOLDER/$NEWNAME"
+  echo ">> File $BASENAME rinominato in $NEWNAME"
+else
+  echo "Errore: Il file $SPECIFIC_FILE non esiste nella cartella $FARMACISTA_ADMIN_DESTINATION_FOLDER!"
+  exit 1
+fi
+
+echo ">> Copia dei file dalla cartella $FARMACISTA_ADMINKEY_SOURCE_FOLDER alla cartella $FARMACISTA_ADMIN_DESTINATION_FOLDER..."
+
+# Recupero il file key.pem
+# Individua l'unico file nella cartella sorgente
+FILE_TO_COPY=$(ls "$FARMACISTA_ADMINKEY_SOURCE_FOLDER" | head -n 1)
+
+if [ -z "$FILE_TO_COPY" ]; then
+  echo "Errore: Nessun file trovato nella cartella $SOURCE_FOLDER!"
+  exit 1
+fi
+
+# Copia il file nella cartella di destinazione
+cp "$FARMACISTA_ADMINKEY_SOURCE_FOLDER/$FILE_TO_COPY" "$FARMACISTA_ADMIN_DESTINATION_FOLDER/"
+echo ">> File $FILE_TO_COPY copiato in $FARMACISTA_ADMIN_DESTINATION_FOLDER."
+# Rinomina il file copiato
+NEW_NAME2="admin-key.pem"
+mv "$FARMACISTA_ADMIN_DESTINATION_FOLDER/$FILE_TO_COPY" "$FARMACISTA_ADMIN_DESTINATION_FOLDER/$NEW_NAME2"
+echo ">> File $FILE_TO_COPY rinominato in $NEW_NAME2"

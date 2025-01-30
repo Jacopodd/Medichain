@@ -16,6 +16,7 @@ func (s *SmartContract) SaveTransaction(ctx contractapi.TransactionContextInterf
 	tx := TransactionData{
 		TransactionID: transactionID,
 		IPFSHash:      ipfsHash,
+		IsValid:       true, 
 	}
 	txJSON, err := json.Marshal(tx)
 	if err != nil {
