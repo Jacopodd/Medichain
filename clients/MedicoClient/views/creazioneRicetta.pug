@@ -4,62 +4,78 @@ html
         meta(charset="UTF-8")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title Inserisci Ricetta
+        link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap")
         style.
             body {
-                font-family: Arial, sans-serif;
-                background-color: #5080fd; /* Blu chiaro della palette */
+                font-family: 'Poppins', sans-serif;
+                background: linear-gradient(135deg, #5080fd, #1f2b5b);
                 margin: 0;
-                padding: 1rem;
+                padding: 2rem;
+                display: flex;
+                justify-content: center;
             }
             .container {
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 1rem;
-                background-color: #FFFFFF; /* Bianco */
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                max-width: 700px;
+                background: #fff;
+                padding: 2rem;
+                border-radius: 12px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                animation: fadeIn 0.5s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
             }
             h1 {
-                color: #1f2b5b; /* Blu scuro della palette */
+                color: #1f2b5b;
                 text-align: center;
-                margin-bottom: 1rem;
+                margin-bottom: 1.5rem;
+                font-weight: 600;
             }
             .field-group {
                 display: flex;
                 gap: 1rem;
-                align-items: center;
                 margin-bottom: 1rem;
             }
-            .field-group input[type="text"] {
+            .field-group input {
                 flex: 1;
-                padding: 0.5rem;
-                border: 1px solid #3dbdec; /* Blu brillante della palette */
-                border-radius: 5px;
+                padding: 12px;
+                border: 2px solid #3dbdec;
+                border-radius: 8px;
                 font-size: 1rem;
+                transition: 0.3s;
+            }
+            input:focus {
+                border-color: #1f2b5b;
+                outline: none;
+                box-shadow: 0 0 8px rgba(31, 43, 91, 0.2);
             }
             .add-button {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #3dbdec; /* Blu brillante della palette */
-                color: #FFFFFF; /* Bianco */
-                padding: 0.5rem 1rem;
+                background: #3dbdec;
+                color: #fff;
+                padding: 10px 15px;
                 border: none;
-                border-radius: 5px;
+                border-radius: 8px;
                 cursor: pointer;
                 font-size: 1rem;
-                margin-top: 1rem;
+                transition: 0.3s;
+                width: 100%;
+                font-weight: 500;
             }
             .add-button:hover {
-                background-color: #1f2b5b; /* Blu scuro della palette */
+                background: #1f2b5b;
+                transform: scale(1.05);
             }
             .save-button {
                 width: 100%;
-                padding: 0.75rem;
+                padding: 14px;
                 font-size: 1.2rem;
                 font-weight: bold;
-                color: #FFFFFF; /* Bianco */
-                background: linear-gradient(90deg, #3dbdec, #1f2b5b); /* Gradiente */
+                color: #fff;
+                background: linear-gradient(90deg, #3dbdec, #1f2b5b);
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
@@ -69,8 +85,14 @@ html
             }
             .save-button:hover {
                 transform: scale(1.05);
-                background: linear-gradient(90deg, #1f2b5b, #3dbdec); /* Gradiente invertito */
+                background: linear-gradient(90deg, #1f2b5b, #3dbdec);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            }
+            @media (max-width: 768px) {
+                .field-group {
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
             }
     body
         .container
@@ -82,11 +104,9 @@ html
                         input(type="text" name="drugName[]" placeholder="Nome del farmaco...")
                         input(type="text" name="dosage[]" placeholder="Dosaggio...")
                         input(type="text" name="frequency[]" placeholder="Frequenza (es. 2 volte al giorno)...")
-                button.add-button(type="button" id="addDrugButton")
-                    | +
-                    span Aggiungi farmaco
+                button.add-button(type="button" id="addDrugButton") ➕ Aggiungi farmaco
                 .form-group
-                    button.save-button(type="submit") Salva Ricetta
+                    button.save-button(type="submit") 💾 Salva Ricetta
 
         script.
             const recipeForm = document.getElementById('recipeForm');
@@ -150,7 +170,7 @@ html
                 })
                     .then(response => response.json())
                     .then(result => {
-                        alert('Ricetta salvata con successo!');
+                        alert('Ricetta salvata con successo! 🎉');
                         console.log(result);
                     })
                     .catch(error => {

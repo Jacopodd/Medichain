@@ -1,2 +1,2 @@
-[34m2025-01-30 11:05:09.256 CET 0001 INFO[0m [channelCmd] [34;1mInitCmdFactory[0m -> Endorser and orderer connections initialized
-[34m2025-01-30 11:05:09.268 CET 0002 INFO[0m [channelCmd] [34;1mupdate[0m -> Successfully submitted channel update
+[34m2025-02-09 16:37:17.415 CET 0001 INFO[0m [channelCmd] [34;1mInitCmdFactory[0m -> Endorser and orderer connections initialized
+[34m2025-02-09 16:37:17.429 CET 0002 INFO[0m [channelCmd] [34;1mupdate[0m -> Successfully submitted channel update

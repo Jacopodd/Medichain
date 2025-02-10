@@ -3,5 +3,65 @@ Kubo version: 0.21.0
 Repo version: 14
 System version: amd64/linux
 Golang version: go1.19.10
-
-Error: lock /home/jacopodd/.ipfs/repo.lock: someone else has the lock
+2025/02/09 16:37:56 failed to sufficiently increase receive buffer size (was: 208 kiB, wanted: 2048 kiB, got: 416 kiB). See https://github.com/quic-go/quic-go/wiki/UDP-Receive-Buffer-Size for details.
+Swarm listening on /ip4/127.0.0.1/tcp/4001
+Swarm listening on /ip4/127.0.0.1/udp/4001/quic
+Swarm listening on /ip4/127.0.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/127.0.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/172.17.0.1/tcp/4001
+Swarm listening on /ip4/172.17.0.1/udp/4001/quic
+Swarm listening on /ip4/172.17.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/172.17.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/172.18.0.1/tcp/4001
+Swarm listening on /ip4/172.18.0.1/udp/4001/quic
+Swarm listening on /ip4/172.18.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/172.18.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/172.19.0.1/tcp/4001
+Swarm listening on /ip4/172.19.0.1/udp/4001/quic
+Swarm listening on /ip4/172.19.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/172.19.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/172.20.0.1/tcp/4001
+Swarm listening on /ip4/172.20.0.1/udp/4001/quic
+Swarm listening on /ip4/172.20.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/172.20.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/172.21.0.1/tcp/4001
+Swarm listening on /ip4/172.21.0.1/udp/4001/quic
+Swarm listening on /ip4/172.21.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/172.21.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/172.24.0.1/tcp/4001
+Swarm listening on /ip4/172.24.0.1/udp/4001/quic
+Swarm listening on /ip4/172.24.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/172.24.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/172.25.0.1/tcp/4001
+Swarm listening on /ip4/172.25.0.1/udp/4001/quic
+Swarm listening on /ip4/172.25.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/172.25.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/172.31.4.23/tcp/4001
+Swarm listening on /ip4/172.31.4.23/udp/4001/quic
+Swarm listening on /ip4/172.31.4.23/udp/4001/quic-v1
+Swarm listening on /ip4/172.31.4.23/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip4/192.168.0.1/tcp/4001
+Swarm listening on /ip4/192.168.0.1/udp/4001/quic
+Swarm listening on /ip4/192.168.0.1/udp/4001/quic-v1
+Swarm listening on /ip4/192.168.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /ip6/::1/tcp/4001
+Swarm listening on /ip6/::1/udp/4001/quic
+Swarm listening on /ip6/::1/udp/4001/quic-v1
+Swarm listening on /ip6/::1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm listening on /p2p-circuit
+Swarm announcing /ip4/127.0.0.1/tcp/4001
+Swarm announcing /ip4/127.0.0.1/udp/4001/quic
+Swarm announcing /ip4/127.0.0.1/udp/4001/quic-v1
+Swarm announcing /ip4/127.0.0.1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm announcing /ip4/172.31.4.23/tcp/4001
+Swarm announcing /ip4/172.31.4.23/udp/4001/quic
+Swarm announcing /ip4/172.31.4.23/udp/4001/quic-v1
+Swarm announcing /ip4/172.31.4.23/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+Swarm announcing /ip6/::1/tcp/4001
+Swarm announcing /ip6/::1/udp/4001/quic
+Swarm announcing /ip6/::1/udp/4001/quic-v1
+Swarm announcing /ip6/::1/udp/4001/quic-v1/webtransport/certhash/uEiD3hiMWKscAc7Moqo-505npqPtp8elf4XNWUVMXtT9W6A/certhash/uEiC5dB6LOOECwju0jD2V4cMX0hLpme8he7FucF_aHRQcPg
+RPC API server listening on /ip4/127.0.0.1/tcp/5001
+WebUI: http://127.0.0.1:5001/webui
+Gateway server listening on /ip4/127.0.0.1/tcp/8080
+Daemon is ready

@@ -1,0 +1,16 @@
+{
+  "patientID": "9847d67ab3721d9f4478df5788a62deb40c684a3de2b771386d22e94347ffeec",
+  "data": "2025-01-30T20:46:45.134Z",
+  "prescription": [
+    {
+      "drugName": "Tachipirina",
+      "dosage": "1000",
+      "frequency": "2 volte al giorno / 1 sett."
+    },
+    {
+      "drugName": "Augumentin",
+      "dosage": "500",
+      "frequency": "2 volte al giorno / 1 sett."
+    }
+  ]
+}

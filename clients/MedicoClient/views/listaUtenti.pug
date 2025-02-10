@@ -4,25 +4,33 @@ html
         meta(charset="UTF-8")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title Lista Utenti
+        link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap")
         style.
             body {
-                font-family: Arial, sans-serif;
-                background-color: #5080fd; /* Blu chiaro della palette */
+                font-family: 'Poppins', sans-serif;
+                background: linear-gradient(135deg, #5080fd, #1f2b5b);
                 margin: 0;
-                padding: 1rem;
+                padding: 2rem;
+                display: flex;
+                justify-content: center;
             }
             .container {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 1rem;
-                background-color: #FFFFFF; /* Bianco */
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                max-width: 900px;
+                background: #fff;
+                padding: 2rem;
+                border-radius: 12px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                animation: fadeIn 0.5s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
             }
             h1 {
-                color: #1f2b5b; /* Blu scuro della palette */
+                color: #1f2b5b;
                 text-align: center;
-                margin-bottom: 1rem;
+                margin-bottom: 1.5rem;
+                font-weight: 600;
             }
             .search-bar {
                 display: flex;
@@ -32,10 +40,16 @@ html
             input[type="text"] {
                 width: 100%;
                 max-width: 500px;
-                padding: 0.5rem;
-                border: 1px solid #3dbdec; /* Blu brillante della palette */
-                border-radius: 5px;
+                padding: 12px;
+                border: 2px solid #3dbdec;
+                border-radius: 8px;
                 font-size: 1rem;
+                transition: 0.3s;
+            }
+            input:focus {
+                border-color: #1f2b5b;
+                outline: none;
+                box-shadow: 0 0 8px rgba(31, 43, 91, 0.2);
             }
             .card-container {
                 display: flex;
@@ -44,27 +58,25 @@ html
                 justify-content: center;
             }
             .card {
-                background-color: #1f2b5b; /* Blu scuro della palette */
-                color: #FFFFFF; /* Bianco */
+                background: #1f2b5b;
+                color: #fff;
                 padding: 1rem;
                 border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                width: 200px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                width: 220px;
                 text-align: center;
                 cursor: pointer;
                 text-decoration: none;
-                transition: transform 0.2s;
-                border: 1px solid #3dbdec; /* Blu brillante della palette */
+                transition: transform 0.3s, box-shadow 0.3s;
+                border: 2px solid #3dbdec;
             }
             .card:hover {
                 transform: scale(1.05);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
             }
             .card h3 {
                 margin: 0.5rem 0;
-                font-size: 1.2rem;
-            }
-            .card p {
-                margin: 0.5rem 0;
+                font-size: 1.3rem;
             }
             @media (max-width: 768px) {
                 .card {
@@ -75,12 +87,11 @@ html
         .container
             h1 Lista dei Pazienti
             .search-bar
-                input(type="text" id="searchInput" placeholder="Cerca un utente...")
+                input(type="text" id="searchInput" placeholder="🔍 Cerca un utente...")
             .card-container#cardContainer
                 each user in users
                     a.card(href=`/users/${user.id}`)
                         h3= user.name
-
         script.
             const searchInput = document.getElementById('searchInput');
             const cardContainer = document.getElementById('cardContainer');
@@ -90,10 +101,6 @@ html
                 const cards = cardContainer.children;
                 Array.from(cards).forEach(card => {
                     const name = card.querySelector('h3').textContent.toLowerCase();
-                    if (name.includes(query)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    card.style.display = name.includes(query) ? 'block' : 'none';
                 });
             });

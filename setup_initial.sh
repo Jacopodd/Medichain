@@ -105,3 +105,8 @@ echo ">> Approvato da entrambi!"
 
 echo ">> Chaincode ${CREATE_PRESCRIPTION_CHAINCODE_NAME} installato e committato con successo su ${CHANNEL_NAME}!"
 
+
+echo ">> Rimuovo i certificati vecchi..."
+./remove_certs.sh
+echo ">> Copio i nuovi certificati..."
+./copy_certs.sh
