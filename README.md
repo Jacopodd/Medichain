@@ -19,3 +19,5 @@ Scarica il progetto direttamente da GitHub con il comando:
 ```sh
 git clone https://github.com/Jacopodd/Medichain.git
 cd Medichain
+
+### 2️⃣ **Clona il repository**
