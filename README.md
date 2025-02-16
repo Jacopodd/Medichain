@@ -51,5 +51,11 @@ node app.js
 ```
 
 ## 🔗 Smart Contracts
-All'interno della cartella “**`chaincodes/`**” troverai gli smart contract scritti in Go. Questi vengono utilizzati per gestire le transazioni e le operazioni sulla blockchain.
+All'interno della cartella **`chaincodes/`** troverai gli smart contract scritti in Go. Questi vengono utilizzati per gestire le transazioni e le operazioni sulla blockchain.
+
+## 📬 Contatti
+Per qualsiasi problema o domanda, apri una Issue su GitHub o contattami! 😊
+💡 Contribuisci: Se vuoi migliorare il progetto, sentiti libero di fare una Pull Request! 🚀
+
+# ⚡ Medichain - La Blockchain per la Sanità del Futuro ⚡
 
