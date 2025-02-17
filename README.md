@@ -23,7 +23,7 @@ cd Medichain
 
 ### 2️⃣ **Scarica il secondo repository necessario**
 Per il corretto funzionamento del progetto, è necessario clonare un altro repository. Scaricalo da qui:
-👉[LINK] 
+👉[https://github.com/Jacopodd/MedichainAndroid.git] 
 
 ### 3️⃣ **Configura le Path**
 Prima di avviare l'applicazione, assicurati di modificare le path nei file di configurazione per indicare correttamente le directory di Fabric, Go e IPFS.
